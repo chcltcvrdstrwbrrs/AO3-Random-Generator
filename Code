@@ -1,0 +1,36 @@
+import random
+import requests
+from bs4 import BeautifulSoup
+
+while True:
+
+    a = random.randint(1,40000000)
+    x = ("https://archiveofourown.org/works/{}".format(a))
+
+    response = requests.get(x)
+    if response.status_code == 200:
+        break
+        
+url = (x)
+ 
+page = requests.get(url)
+soup = BeautifulSoup(page.text, 'html.parser')
+ 
+print(soup.title.text)
+print (x)
+for el in soup.find_all("div", class_= "summary module"):
+    print(el.get_text())
+for el in soup.find_all("dd", class_= "published"):
+    print("date:",el.get_text())
+for el in soup.find_all("dd", class_= "words"):
+    print("words:",el.get_text())
+for el in soup.find_all("dd", class_= "chapters"):
+    print("chapters:",el.get_text())
+for el in soup.find_all("dd", class_= "hits"):
+    print("hits:",el.get_text())
+for el in soup.find_all("dd", class_= "kudos"):
+    print("kudos:",el.get_text())
+for el in soup.find_all("dd", class_= "comments"):
+    print("comments:",el.get_text())
+for el in soup.find_all("dd", class_= "bookmarks"):
+    print("bookmarks:",el.get_text())
