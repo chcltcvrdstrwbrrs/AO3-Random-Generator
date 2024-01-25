@@ -1,25 +1,35 @@
-import random
-import requests
-from bs4 import BeautifulSoup
 
 while True:
 
-    a = random.randint(1,40000000)
+    a = random.randint(1,60000000)
     x = ("https://archiveofourown.org/works/{}".format(a))
 
     response = requests.get(x)
     if response.status_code == 200:
         break
-        
+
 url = (x)
- 
+
 page = requests.get(url)
 soup = BeautifulSoup(page.text, 'html.parser')
- 
+
 print(soup.title.text)
 print (x)
+print()
 for el in soup.find_all("div", class_= "summary module"):
     print(el.get_text())
+print("Tags: ")
+for el in soup.find_all("dd", class_= "freeform tags"):
+    for i in el("ul", class_= "commas"):   
+        for j in i("a", class_="tag"):
+            print(j.get_text())
+print()
+for el in soup.find_all("dd", class_= "rating tags"):
+  print("rating:",el.get_text())
+for el in soup.find_all("dd", class_= "warning tags"):
+  print("warning:",el.get_text())
+for el in soup.find_all("dd", class_= "category tags"):
+  print("category:",el.get_text())
 for el in soup.find_all("dd", class_= "published"):
     print("date:",el.get_text())
 for el in soup.find_all("dd", class_= "words"):
@@ -34,3 +44,6 @@ for el in soup.find_all("dd", class_= "comments"):
     print("comments:",el.get_text())
 for el in soup.find_all("dd", class_= "bookmarks"):
     print("bookmarks:",el.get_text())
+print()
+for el in soup.find_all("div", class_= "userstuff"):
+    print(el.get_text())
